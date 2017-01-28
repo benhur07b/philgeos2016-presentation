@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>PhilGEOS 2016 Presentation</title>
+
+		<meta name="description" content="PhilGEOS 2016 Presentation (April 21, 2016, University of the Philippines Diliman)">
+		<meta name="author" content="Ben Hur S. Pintor">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/sky.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<!-- For Markdown -->
+<!--
+				<section data-markdown="md/philgeos2016.md"
+						 data-separator="\n---\n"
+						 data-separator-vertical="\n--\n"
+						 data-separator-notes="Note:"
+						 data-charset="iso-8859-15">
+				</section>
+-->
+
+				<section>
+					<h2 style="color: #000000"><b>Converting Solar Radiation Measurements from ASTI Weather Stations to a Monthly Average Shapefile using Python</b></h2>
+					<hr>
+					<p style="line-height:50%"><small>5th Philippine Geomatics Symposium (PhilGEOS 2016)</small><br><small>
+					April 20-22, 2016<br>
+					University of the Philippines Diliman</small></p>
+				</section>
+
+				<section>
+					<h1 style="color: #000000"><b>Outline</b></h1>
+					<hr>
+					<h2><a href="#/2">Background</a></h2>
+					<h2><a href="#/3">Materials and Methods</a></h2>
+					<h2><a href="#/4">Results</a></h2>
+				</section>
+
+				<section>
+					<!--
+					<section data-transition="concave">
+						<h1 style="color: #000000"><b>Background</b></h1>
+					</section>
+					-->
+					<section data-background-transition="zoom" data-background="img/Solar.jpg" data-background-repeat="repeat" data-background-size="600px">
+						<h2 style="color: #000000"><b>About the Authors</b></h2>
+						<h4><u>Pintor</u>, Sola, Teves</h4>
+						<p style="line-height:50%">
+						<i><small>SOLAR Component<br></i>
+						Philippine Renewable Energy Resource Mapping from LiDAR Surveys (REMap)<br>
+						Nationwide Detailed Resources Assessment using LiDAR Program (Phil-LiDAR 2)
+						</small></i></p>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Weather Data</h2>
+						<hr>
+						<table id="t01">
+						 	<tr>
+						    	<th>Source</th>
+						    	<th>Data format</th>		
+						    	<th>Time Range of Daily Measurements</th>
+						  	</tr>
+						  	<tr>
+							    <td>ASTI Weather API<br>
+							    <small><em>(http://weather.asti.dost.gov.ph/home/index.php/api)</em></small></td>
+							    <td>.json</td>	
+							    <td>08:00H - 08:00H</td>
+						  	</tr>
+							<tr>
+							    <td>BSWM Agro-Met site<br>
+							    <small><em>(http://agromet.da.gov.ph/viewdata/)</em></small></td>
+							    <td>.csv</td>		
+							    <td>08:00H - 08:00H</td>
+							</tr>
+							<tr>
+							    <td>Philippine E-Science Grid Repository<br>
+							    <small><em>(http://repo.pscigrid.gov.ph/predict)</em></small></td>
+							    <td>.csv</td>		
+							    <td>00:00H - 24:00H</td>
+							</tr>
+						</table>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Problems</h2>
+						<hr>
+						<ol>
+							<li>Different data formatting</li>
+							<li>No option to download averages</li>
+							<li>Missing and incomplete readings</li>
+						</ol>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">ASTI Weather API</h2>
+						<hr>
+						<img src="img/data-asti.png">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">BSWM AGROMET Site</h2>
+						<hr>
+						<img src="img/data-bswm.png">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Phil. E-Science Grid Repo</h2>
+						<hr>
+						<img src="img/data-repo.png">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Objectives</h2>
+						<hr>
+						<h3><b>Daily Solar radiation (W/m<sup>2</sup>) readings from ASTI weather sensors</h3>
+						<p style="color: #3b759e">-- to --<br></p>
+						<h3>Monthly Average solar radiation (W/m<sup>2</sup>) shapefile</b></h3>
+					</section>
+				</section>
+
+				<section>
+					<!--
+					<section data-transition="concave">
+						<h1 style="color: #000000"><b>Materials and Methods</b></h1>
+					</section>
+					-->
+					<section data-transition="concave">
+						<h1 style="color: #3b759e"><a href="#/2/1">Which Data Source?</a></h1>	
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Python Modules</h2>
+						<hr>
+						<h3>BeautifulSoup</h3>
+						<h3>pandas</h3>
+						<h3>pyshp</h3>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Workflow</h2>
+						<hr>
+						<img src="img/Workflow.png">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Download</h2>
+						<hr>
+						<div id="container">
+					        <div id="left-col">
+					        	<img src="img/dl.png">
+					        </div>
+					        <div id="right-col">
+					        	<small><p><b>Inputs:</b> YYYY/MM/DD, Keyword/s</p>
+					        	<p><b>Output:</b> Daily sensor readings (.csv)</p>
+					        	<p><em>Beautifulsoup is used to crawl the repository and search sensor measurements that match the keywords and the date provided.</em></p></small>
+					        </div>
+					        <div class="clear"></div>
+					    </div>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Compile</h2>
+						<hr>
+						<div id="container">
+					        <div id="left-col">
+					        	<img src="img/cm.png">
+					        </div>
+					        <div id="right-col">
+					        	<small><p><b>PART 1</b></p>
+					        	<p><b>Inputs:</b> Directory of daily sensor readings, Sensor Type</p>
+					        	<p><b>Output:</b> Average solar radiation (W/m<sup>2</sup>) readings per sensor per month per year (.csv)</p>
+					        	<p><em>Each daily sensor reading for a month is checked to determine if it will be included in the computation of the monthly average.</em></p></small>
+					        	<small><p><b>PART 2</b></p>
+					        	<p><b>Inputs:</b> Output of PART 1</p>
+					        	<p><b>Output:</b> Monthly average solar radiation (W/m<sup>2</sup>) per sensor (.csv)</p>
+					        	<p><em>Pandas is used to compute for the weighted mean</em></p></small>
+					        </div>
+					        <div class="clear"></div>
+					    </div>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Convert</h2>
+						<hr>
+						<div id="container">
+					        <div id="left-col">
+					        	<img src="img/cn.png">
+					        </div>
+					        <div id="right-col">
+					        	<small><p><b>Inputs:</b> Output of COMPILE PART 2</p>
+					        	<p><b>Output:</b> Monthly average solar radiation (W/m<sup>2</sup>) (.shp)</p>
+					        	<p><em>Pyshp converts the csv to a shapefile.</em></p></small>
+					        </div>
+					        <div class="clear"></div>
+					    </div>
+					</section>
+				</section>
+
+				<section>
+					<!--
+					<section data-transition="concave">
+						<h1 style="color: #000000"><b>Results</b></h1>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Demo</h2>
+					</section>
+					-->
+					<section data-transition="concave">
+						<img src="img/Solar.jpg" alt="REMap-SOLAR logo" style="	width:320px;height:320px;">
+						<p style="color: #000000"><b>ASTI Solar Download, Compile, and Convert Tool</b></p>
+						<p>available at: <em><a style="color: #3b759e" href="https://github.com/remap-solar/asti-solar-dcc-tool">https://github.com/remap-solar/asti-solar-dcc-tool</a></em></p>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Demo (Download)</h2>
+						<hr>
+						<video controls>
+						<source src="img/demo-dl.mp4" type="video/mp4">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Demo (Compile Part 1)</h2>
+						<hr>
+						<video controls>
+						<source src="img/demo-cm1.mp4" type="video/mp4">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Demo (Compile Part 2)</h2>
+						<hr>
+						<video controls>
+						<source src="img/demo-cm2.mp4" type="video/mp4">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Demo (Convert)</h2>
+						<hr>
+						<video controls>
+						<source src="img/demo-cn.mp4" type="video/mp4">
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Conclusion</h2>
+						<hr>
+						<ul>
+							<li>Python is useful not just in the processing but also in the pre-processing of geospatial data because of its versatility and the variety of its libraries.</li>
+							<li>The developed tool significantly decreases the time needed to download and average ASTI solar radiation data.</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h2 style="color: #3b759e">Current Limitations and Future Improvements</h2>
+						<hr>
+						<ul>
+							<li>The <em>Download</em> tool can be used to download all the weather sensor data in the repo but the <em>Compile</em> and <em>Convert</em> tools were specifically created for the purpose of computing the monthly average solar radiation values.</li>
+							<li>With a little editing of the code, the tool can be extended to compile and convert other weather data.</li>
+							<li>Use data from the ASTI Weather API instead of the Phil. E-Science Grid Repository</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<small>This research is an output of the Nationwide Detailed Resources Assessment using LiDAR Program (Phil-LiDAR 2), in particular, Project 5: Philippine Renewable Energy Resource Mapping from LiDAR Surveys (REMap). The Program is funded by the Department of Science and Technology (DOST) through its grants-in-aid program (GIA) and implemented by the Training Centre for Applied Geodesy and Photogrammetry of the University of the Philippines – Diliman.</small>
+				</section>
+
+				<section data-background="img/sun.gif">
+					<h1 style="color: #3b759e"><b>THANK YOU! :)</b></h1>
+					<br>
+					<p>This presentation is available at:<br><em><a style="color: #3b759e" href="http://bnhr07b.github.io/philgeos2016-presentation">http://bnhr07b.github.io/philgeos2016-presentation</a></em></p>
+				</section>
+
+
+			</div>
+		</div>
+		
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				transition: 'convex',
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+.reveal a{
+	color: #444444;
+}
+
+#left-col{
+	width: 500px;
+	float: left;
+}
+
+#right-col{
+	margin-left: 500px;
+	text-align: left;
+	color: #000000;
+}
+
+.clear{
+	clear: both;
+}
+
+table#t01 tr:nth-child(even){
+    background-color: #eee;
+    vertical-align: middle;
+}
+table#t01 tr:nth-child(odd){
+   background-color:#fff;
+   vertical-align: middle;
+}
+table#t01 th{
+    background-color: black;
+    color: white;
+    vertical-align: middle;
+}
+
+table#t01 td{
+	vertical-align: middle;
+	color: #000000;
+}
